@@ -64,6 +64,7 @@ class ApiActor extends HttpServiceActor with OauthClient with ActorLogging {
       }
     }
   }
+
   val route = otherRoute ~ secRoute ~ myRoutes ~ authorizedRoute
 
   override def receive: Receive = runRoute(route)
