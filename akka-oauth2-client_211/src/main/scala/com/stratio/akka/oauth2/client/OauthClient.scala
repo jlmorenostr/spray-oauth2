@@ -42,6 +42,21 @@ trait OauthClient extends Directives{
 
   def logoutRedirect = redirect(configure.LogoutUrl, StatusCodes.Found)
 
+  def authorized(user:String, authenticationProvider: AuthenticationProvider): Directive1[String] = {
+    if (configure.Enabled) {
+      if (authenticationProvider.isAuthorized(user)){
+        provide(user)
+      }else{
+        complete(Unauthorized,"")
+      }
+    } else {
+      val sessionId = getRandomSessionId
+      addSession(sessionId, "*", Long.MaxValue)
+      setCookie(HttpCookie(configure.CookieName, sessionId, None, None, None, Option("/")))
+      provide("*")
+    }
+  }
+
   val authorized: Directive1[String] = {
     if (configure.Enabled) {
       optionalCookie(configure.CookieName) flatMap {
@@ -139,4 +154,7 @@ trait OauthClient extends Directives{
     plainResponse.entity.toString
   }
 
+  val secRoute = login ~ logout ~ isLogged
 }
+
+object OauthClient extends OauthClient
