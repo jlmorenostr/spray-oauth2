@@ -15,23 +15,36 @@
  */
 package com.stratio.spray.oauth2.client
 
-import akka.actor.{ActorRefFactory, ActorSystem}
+import akka.actor.{ActorContext, ActorRefFactory, ActorSystem}
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import com.stratio.akka.oauth2.client.OauthClient
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
 import org.scalatest.{FlatSpec, Matchers}
+import akka.testkit.TestActorRef
 
 import scala.concurrent.duration._
 
+@RunWith(classOf[JUnitRunner])
 class AkkaOauthSpec extends FlatSpec with OauthClient with Matchers with ScalatestRouteTest {
 
-  override implicit val system = ActorSystem() 
-  implicit val actorRefFactory: ActorRefFactory = system
+
+  //override implicit val system:ActorSystem = ActorSystem()
+  //override implicit val materializer:ActorMaterializer = ActorMaterializer()
+
+
+  override implicit val system = ActorSystem()
+//  implicit val actorRefFactory: ActorRefFactory = system
+  implicit private val executionContext = system.dispatcher
   override implicit val materializer: ActorMaterializer = ActorMaterializer()
 
-  implicit val timeout: Timeout = Timeout(30.seconds)
+//implicit val actorRefFactory: ActorRefFactory = system
+
+
+
 
   "Login " should "return " in {
     Get("/login?code=asdfadsf") ~> login ~> check {
