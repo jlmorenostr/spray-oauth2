@@ -1,3 +1,5 @@
+package com.stratio.akka.oauth2.client
+
 /**
  * Copyright (C) 2016 Stratio (http://stratio.com)
  *

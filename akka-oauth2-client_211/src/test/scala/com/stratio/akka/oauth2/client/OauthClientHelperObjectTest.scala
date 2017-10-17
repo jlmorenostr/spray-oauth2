@@ -1,3 +1,5 @@
+package com.stratio.akka.oauth2.client
+
 /**
  * Copyright (C) 2016 Stratio (http://stratio.com)
  *
@@ -13,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import com.stratio.akka.oauth2.client.{Config, OauthClientHelper}
 import com.typesafe.config.ConfigValueFactory
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner

@@ -144,8 +144,9 @@ trait OauthClient extends Directives{
     makeGetRq(profileUrl)
   }
 
-  implicit val system = ActorSystem()
-  implicit val materializer = ActorMaterializer()
+  implicit val system = ActorSystem("OAuth-ActorSystem")
+  implicit val actorRefFactory: ActorRefFactory = system
+  implicit val materializer = ActorMaterializer.create(actorRefFactory)
 
   def makeGetRq(url: String): String = {
     val responseFuture: Future[HttpResponse] =
